@@ -70,3 +70,35 @@ pip install -r requirements.txt
 # 4. Set your environment variables in a .env file
 touch .env
 # NextStep
+.env file
+GROQ_API_KEY=your_groq_api_key_here
+HF_TOKEN=your_huggingface_token_here
+
+# 5. Run the App
+streamlit run app.py
+```
+
+## 🤖 Example Queries
+- "What skills do I need to become a Data Scientist at Google?"
+
+- "Based on my resume, what are the best job roles I should aim for?"
+
+- "Suggest certifications to transition from Frontend to ML Engineer."
+
+## 📂 Folder Structure
+```
+NextStep/
+│
+├── app.py
+├── requirements.txt
+├── .env
+├── spark_dashboard.png
+└── README.md
+```
+## Author
+
+**Badam Venkatesh**  
+💼 AI Enthusiast | Builder of GenAI + Career Tools  
+📬 [LinkedIn](https://www.linkedin.com/in/badamvenkatesh/) | 🌐 [Portfolio](https://badam-portfolio.netlify.app)
+
+
