@@ -3,7 +3,7 @@ langchain==0.1.17
 langchain-community==0.0.34
 langchain-core==0.1.50
 langchain-groq==0.3.4
-langchain-huggingface==0.0.6
+langchain-huggingface==0.3.0
 huggingface-hub==0.21.4
 pypdf==4.1.0
 python-dotenv==1.0.1
