@@ -16,7 +16,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-os.environ['HF_TOKEN'] = os.getenv('HF_TOKEN')
+HF_TOKEN = st.secrets["HF_TOKEN"]
 embeddings = HuggingFaceEmbeddings(model="all-MiniLM-L6-v2")
 
 
@@ -28,7 +28,7 @@ with st.sidebar:
     st.title("Controls")
     uploaded_file = st.file_uploader("Upload your PDF Resume", type="pdf")
     session_id = st.text_input("Session ID", value="default_session")
-    groq_api_key = os.getenv("GROQ_API_KEY")
+    groq_api_key = st.secrets["GROQ_API_KEY"]
     if not groq_api_key:
         st.warning("Please set your GROQ_API_KEY in environment variables.")
 
