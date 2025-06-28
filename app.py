@@ -9,7 +9,9 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import Pinecone as PineconeLangChain
+import pinecone
+
 
 
 import os
@@ -18,6 +20,18 @@ load_dotenv()
 
 HF_TOKEN = st.secrets["HF_TOKEN"]
 embeddings = HuggingFaceEmbeddings(model="all-MiniLM-L6-v2")
+pinecone_api_key = st.secrets["PINECONE_API_KEY"]
+pinecone_env = st.secrets["PINECONE_ENVIRONMENT"]
+pinecone_index_name = st.secrets["PINECONE_INDEX_NAME"]
+
+# Init Pinecone client
+pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
+
+# Create index if it doesn't exist
+if pinecone_index_name not in pinecone.list_indexes():
+    pinecone.create_index(name=pinecone_index_name, dimension=384, metric="cosine")  # 384 for MiniLM
+
+index = pinecone.Index(pinecone_index_name)
 
 
 ## Title of the app
@@ -62,7 +76,11 @@ if documents:
     # Prepare vectorstore
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=500)
     splits = text_splitter.split_documents(documents)
-    vectorstore = FAISS.from_documents(splits, embedding=embeddings)
+    vectorstore = PineconeLangChain.from_documents(
+        documents=splits,
+        embedding=embeddings,
+        index_name=pinecone_index_name,
+    )
     retriever = vectorstore.as_retriever()
 
     contextualize_q_system_prompt = (
